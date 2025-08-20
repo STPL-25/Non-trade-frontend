@@ -98,13 +98,7 @@ const SingleItemForm = ({
               ))}
             </div>
 
-            {currentItem.quantity && currentItem.unitPrice && (
-              <div className="bg-green-50 rounded-md p-3 border border-green-200">
-                <div className="text-sm font-medium text-green-900">
-                  Item Total: ₹{(currentItem.quantity * currentItem.unitPrice).toLocaleString("en-IN")}
-                </div>
-              </div>
-            )}
+          
           </div>
         </div>
       </div>

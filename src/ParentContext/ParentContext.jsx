@@ -71,29 +71,14 @@ const getBranchMasterOptions = async () => {
   };
   return (
     <ParentContext.Provider
-      value={{
-        sidebarOpen,
-        setSidebarOpen,
-        expandedItems,
-        setExpandedItems,
-        activeItem,
-        setActiveItem,
-        activeComponent,
-        setActiveComponent,
-        sidebarWidth,
-        setSidebarWidth,
-        isCollapsed,
-        setIsCollapsed,
-        toggleCollapse,
-        
-        companyDetails,divDetails,branchDetails,headerComponentRender,setHeaderComponentRender,isFullscreen, setIsFullscreen
-        // fieldData,
-        // fieldLoading,
-        // fieldError,
-      }}
-    >
-      {children}
-    </ParentContext.Provider>
+  value={{
+  sidebarOpen, setSidebarOpen,  expandedItems, setExpandedItems,  activeItem, setActiveItem,  activeComponent, setActiveComponent,
+  sidebarWidth, setSidebarWidth,  isCollapsed, setIsCollapsed,  toggleCollapse,  companyDetails, divDetails, branchDetails,
+  headerComponentRender, setHeaderComponentRender,  isFullscreen, setIsFullscreen
+}}>
+   {children}
+  </ParentContext.Provider>
+  
   );
 };
 

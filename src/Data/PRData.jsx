@@ -9,8 +9,7 @@ import {
 
 } from "lucide-react";
 import { ParentContext } from "@/ParentContext/ParentContext";
-// Assuming you have a context like this - replace with your actual context
-// import { DataContext } from './DataContext';
+
 
 const reasons = [
   "Equipment Replacement",
@@ -105,66 +104,35 @@ const itemFields = [
 ];
 
 const useBasicInfoFields = () => {
-  // Replace 'DataContext' with your actual context name
   const { companyDetails,divDetails ,branchDetails} = useContext(ParentContext);
+//   BranchMaster: [
+//     { field: "COMCODE", label: "S.No", require: false, view: true, type: 'Text', input: false },
+//     { field: "COMCODE", label: "Company Name", require: true, view: true, type:'select', options: 'companyDetails', input: true },
+//     { field: "DIVCODE", label: "Division Name", require: true, view: true, type:'select', options: "divDetails", input: true },
+//     { field: "BRN_NAME", label: "Branch Name", require: true, view: true, type:'text', input: true },
+//     { field: "BRN_NIC", label: "Branch Code", require: true, view: true, type:'Text', input: true },
+//     { field: "ADD_PINCODE", label: "Pincode", require: true, view: true, type: 'Number', input: true },
+//     { field: "ADD_DOOR_NO", label: "Door No", require: false, view: true, type: 'Text', input: true },
+//     { field: "ADD_STREET", label: "Street", require: false, view: true, type: 'Text', input: true },
+//     { field: "ADD_AREA", label: "Area", require: false, view: true, type: 'Text', input: true },
+//     { field: "ADD_CITY", label: "City", require: true, view: true, type: 'Text', input: true },
+//     { field: "ADD_STATE", label: "State", require: true, view: true, type: 'Text', input: true },
+//     { field: "ADD_EMAIL", label: "E-mail", require: true, view: true, type: 'Text', input: true },
+//     { field: "ADD_PHONE", label: "Phone no", require: true, view: true, type: 'Text', input: true },
+//     { field: "COM_GST_CODE", label: "GST Code", require: false, view: false, type: 'Text', input: false },
+// ]
 
   return [
-    {
-      name: "COMCODE",
-      label: "Company",
-      type: "select",
-      required: true,
-      options: companyDetails || [], 
-    },
-    {
-      name: "DIVCODE",
-      label: "Division",
-      type: "select",
-      required: true,
-      options: divDetails || [],
-    },
-    {
-      name: "BRN_SNO",
-      label: "Branch",
-      type: "select",
-      required: true,
-      options:branchDetails ||[],
-    },
-    {
-      name: "DEPT",
-      label: "Department",
-      type: "text",
-      placeholder: "Department",
-    },
-    {
-      name: "ECNO",
-      label: "Requested By",
-      type: "text",
-      required: true,
-      placeholder: "Your Ecno",
-    },
-    {
-      name: "REQ_DATE",
-      label: "Required Date",
-      type: "date",
-      required: true,
-    },
-    {
-      name: "PRIORITY",
-      label: "Priority",
-      type: "select",
-      required: true,
-      options: priorities.map((p) => ({ label: p.label, value: p.value })),
-    },
-    {
-      name: "REASON",
-      label: "Reason",
-      type: "select",
-      required: true,
-      options: reasons,
-      gridSpan: "sm:col-span-2",
-    },
-  ];
+  { field: "COMCODE", label: "Company", type: "select", require: true, options: companyDetails || [] },
+  { field: "DIVCODE", label: "Division", type: "select", require: true, options: divDetails || [] },
+  { field: "BRN_SNO", label: "Branch", type: "select", require: true, options: branchDetails || [] },
+  { field: "DEPT", label: "Department", type: "text", placeholder: "Department",require: true },
+  { field: "ECNO", label: "Requested By", type: "text", require: true, placeholder: "Your Ecno" },
+  { field: "REQ_DATE", label: "Required Date", type: "date", require: true },
+  { field: "PRIORITY", label: "Priority", type: "select", require: true, options: priorities.map((p) => ({ label: p.label, value: p.value })) },
+  { field: "REASON", label: "Reason", type: "select", require: true, options: reasons, gridSpan: "sm:col-span-2" }
+]
+
 };
  const purchaseTeamFields = {
   prItems: [

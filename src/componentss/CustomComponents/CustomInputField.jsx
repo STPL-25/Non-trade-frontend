@@ -1,19 +1,19 @@
-"use client"
+"use client";
 
-import React from "react"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
+import React from "react";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Switch } from "@/components/ui/switch"
-import { Label } from "@/components/ui/label"
-import { cn } from "@/lib/utils"
+} from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+import { cn } from "@/lib/utils";
 
 export function CustomInputField({
   field,
@@ -27,28 +27,41 @@ export function CustomInputField({
   disabled = false,
   value,
   onChange,
+  optionsData = {},
   error,
-  optionsData = {}, // For dynamic options like companyDetails, divDetails
   ...props
 }) {
-  // Return null for S.No fields and non-input fields
   if (label === "S.No") {
-    return null
+    return null;
   }
 
-  // Get dynamic options if options is a string (like 'companyDetails', 'divDetails')
   const getOptionsArray = () => {
-    if (typeof options === 'string') {
-      return optionsData[options] || []
+    if (typeof options === "string") {
+      return optionsData[options] || [];
     }
-    return Array.isArray(options) ? options : []
-  }
+    return Array.isArray(options) ? options : [];
+  };
 
-  const optionsArray = getOptionsArray()
+  const optionsArray = getOptionsArray();
+
+  // Helper function to handle change events and extract values properly
+  const handleChange = (eventOrValue) => {
+    let actualValue;
+    
+    // Check if it's an event object
+    if (eventOrValue && eventOrValue.target) {
+      actualValue = eventOrValue.target.value;
+    } else {
+      // Direct value (from Select, Switch, Checkbox)
+      actualValue = eventOrValue;
+    }
+    
+    onChange(actualValue);
+  };
 
   const renderInput = () => {
-    const inputType = type.toLowerCase()
-    
+    const inputType = type.toLowerCase();
+
     switch (inputType) {
       case "textarea":
         return (
@@ -59,58 +72,58 @@ export function CustomInputField({
             disabled={disabled}
             rows={3}
             value={value || ""}
-            onChange={onChange}
+            onChange={handleChange} // Use handleChange instead of onChange directly
             required={require}
             {...props}
           />
-        )
-      
-      case "select":
-        return (
-          <Select
-            name={field}
-            value={value}
-            onValueChange={onChange}
-            disabled={disabled}
-            required={require}
-          >
-            <SelectTrigger className={cn(className, error && "border-red-500")}>
-              <SelectValue placeholder={`Select ${label}`} />
-            </SelectTrigger>
-            <SelectContent>
-              {optionsArray.map((option) => (
-                <SelectItem key={option.value} value={option.value}>
-                  {option.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        )
-      
+        );
+
+    case "select":
+  return (
+    <Select
+      name={field}
+      value={typeof value === 'object' ? value?.value || '' : value || ''}
+      onValueChange={onChange}
+      disabled={disabled}
+      required={require}
+    >
+      <SelectTrigger className={cn(className, error && "border-red-500")}>
+        <SelectValue placeholder={`Select ${label}`} />
+      </SelectTrigger>
+      <SelectContent>
+        {optionsArray.map((option, index) => (
+          <SelectItem key={option.value + index} value={option.value}>
+            {option.label}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
+  );
+
       case "checkbox":
         return (
           <Checkbox
             name={field}
             checked={value}
-            onCheckedChange={onChange}
+            onCheckedChange={onChange} // Checkbox already provides boolean value directly
             disabled={disabled}
             className={cn(className)}
             {...props}
           />
-        )
-      
+        );
+
       case "switch":
         return (
           <Switch
             name={field}
             checked={value}
-            onCheckedChange={onChange}
+            onCheckedChange={onChange} // Switch already provides boolean value directly
             disabled={disabled}
             className={cn(className)}
             {...props}
           />
-        )
-      
+        );
+
       case "number":
         return (
           <Input
@@ -120,12 +133,12 @@ export function CustomInputField({
             className={cn(className, error && "border-red-500")}
             disabled={disabled}
             value={value || ""}
-            onChange={onChange}
+            onChange={handleChange} // Use handleChange
             required={require}
             {...props}
           />
-        )
-      
+        );
+
       case "email":
         return (
           <Input
@@ -135,12 +148,12 @@ export function CustomInputField({
             className={cn(className, error && "border-red-500")}
             disabled={disabled}
             value={value || ""}
-            onChange={onChange}
+            onChange={handleChange} // Use handleChange
             required={require}
             {...props}
           />
-        )
-      
+        );
+
       case "date":
         return (
           <Input
@@ -149,13 +162,13 @@ export function CustomInputField({
             className={cn(className, error && "border-red-500")}
             disabled={disabled}
             value={value || ""}
-            onChange={onChange}
+            onChange={handleChange} // Use handleChange
             required={require}
             {...props}
           />
-        )
-      
-      default: // text
+        );
+
+      default:
         return (
           <Input
             name={field}
@@ -164,17 +177,17 @@ export function CustomInputField({
             className={cn(className, error && "border-red-500")}
             disabled={disabled}
             value={value || ""}
-            onChange={onChange}
+            onChange={handleChange} // Use handleChange
             required={require}
             {...props}
           />
-        )
+        );
     }
-  }
+  };
 
   return (
     <div className="space-y-2">
-      <Label 
+      <Label
         htmlFor={field}
         className={cn(
           "text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
@@ -183,15 +196,11 @@ export function CustomInputField({
       >
         {label}
       </Label>
-      
+
       <div className="space-y-1">
         {renderInput()}
-        {error && (
-          <p className="text-sm text-red-600">
-            {error}
-          </p>
-        )}
+        {error && <p className="text-sm text-red-600">{error}</p>}
       </div>
     </div>
-  )
+  );
 }
